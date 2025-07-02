@@ -45,6 +45,24 @@ characters.get("/characters/:id", async (req, res) => {
   }
 });
 
+characters.get("/characters/:id/planet", async (req, res) => {
+  const db = await connectToDB();
+
+  const characters = db.collection("characters");
+  const { id } = req.params;
+  const character = await characters.find({ id: parseInt(id) }).toArray();
+
+  const collection = db.collection("planets");
+
+  try {
+    const data = await collection.find({ id: parseInt(character[0].homeworld) }).toArray();
+
+    res.json(data);
+  } catch (error) {
+    res.status(500).send("Error with characters/id/planet");
+  }
+});
+
 characters.get("/characters/:id/films", async (req, res) => {
   const db = await connectToDB();
   const charactersFilms = db.collection("films_characters");

@@ -10,9 +10,10 @@ const PORT = 3000;
 
 app.use(express.json());
 
-app.use("/api",characters)
+app.use("/api", characters)
 app.use("/api", films)
 app.use("/api", planets)
+app.use(express.static('./public'))
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
