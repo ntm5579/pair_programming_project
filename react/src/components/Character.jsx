@@ -46,7 +46,7 @@ const Character = () => {
                 <p><span id="mass">Mass: {character.mass}</span></p>
             </section>
             <section id="planets">
-                Homeworld: <Link to={"/planet/" + planet.id}>{planet.name}</Link>
+                Homeworld: <Link to={"/planets/" + planet.id}>{planet.name}</Link>
             </section>
 
             <section id="films">

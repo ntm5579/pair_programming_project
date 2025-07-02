@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { json, Link, useParams } from "react-router-dom";
-import Planet from "./Planet"
+import Planets from "./Planets"
+import Character from './Character';
+import Characters from './characters';
 
 const Films = () => {
     const [films, setFilms] = useState([]);
     const [planets, setPlanets] = useState([]);
+    const [characters, setCharacters] = useState([]);
 
     const { id } = useParams();
 
@@ -36,6 +39,18 @@ const Films = () => {
             } catch (error) {
                 console.error('Error fetching socks:', error);
             }
+            try {
+                const response = await fetch(import.meta.env.VITE_SWAPI_API_URL + `films/${id}/characters`);
+
+                if (!response.ok) {
+                    throw new Error('Data could not be fetched!');
+                }
+                const json_response = await response.json();
+                setCharacters(json_response);
+                // assign JSON response to the data variable.
+            } catch (error) {
+                console.error('Error fetching socks:', error);
+            }
         };
         fetchData();
     }, []);
@@ -51,7 +66,11 @@ const Films = () => {
             <section id="opening_crawl_section">{films.opening_crawl}</section>
             <section id="planet_section">
                 <h2>Planets</h2>
-                <div>{planets.map(planet => (<Planet key={planet.id} data={planet} />)) /*turn this into a map*/}</div>
+                <div>{planets.map(planet => (<Planets key={planet.id} data={planet} />)) /*turn this into a map*/}</div>
+            </section>
+            <section id="character_section">
+                <h2>Characters</h2>
+                <div>{characters.map(character => (<Characters key={character.id} data={character} />)) /*turn this into a map*/}</div>
 
             </section>
         </> //add the characters and planets
